@@ -80,22 +80,22 @@ oled.show()
 
 ## Methods in this library
 
-These methods wrap or extend MicroPython’s [`framebuf` API](https://docs.micropython.org/en/latest/library/framebuf.html) for use with SSD1306 displays.
+Some methods wrap or extend MicroPython’s [`framebuf` API](https://docs.micropython.org/en/latest/library/framebuf.html) for use with SSD1306 displays.
 
 ### Display control
 - `show()`  
   Flush the framebuffer to the OLED display. Handles column shift for 64‑pixel wide displays.
   
 - `poweroff()`  
-  Turn the display off.
+  Turns the display off.
 - `poweron()`  
-  (SPI only) Reset and turn the display on.
+  (SPI only) Resets and turns the display on.
 - `contrast(level)`  
-  Set display brightness (0–255).
+  Sets display brightness (0–255).
 - `invert(invert)`  
-  Invert display colors (`True` or `False`).
+  Inverts display colors (`True` or `False`).
 - `fill(col)`  
-  Fill the entire screen with color `c` (0=black, 1=white).
+  Fills the entire screen with color `c` (0=black, 1=white).
 
 ### Drawing primitives
 - `pixel(x, y, col=1)`  

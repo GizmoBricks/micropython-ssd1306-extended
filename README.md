@@ -31,7 +31,7 @@ from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C
 
 # Adjust bus ID and pins for your board
-i2c = I2C(0, scl=Pin(5), sda=Pin(4))
+i2c = I2C(0, scl=Pin(22), sda=Pin(21))
 oled = SSD1306_I2C(128, 64, i2c)  # width, height
 
 oled.text("Hello, I2C!", 0, 0)
@@ -40,16 +40,37 @@ oled.show()
 
 ### SPI example
 
+#### Hardware SPI
+
 ```python
 from machine import Pin, SPI
 from ssd1306 import SSD1306_SPI
 
-spi = SPI(1)           # adjust bus
-dc = Pin(2)            # data/command
-res = Pin(16)          # reset
-cs = Pin(0)            # chip select
+hspi = SPI(1)  # sck=14 (scl), mosi=13 (sda), miso=12 (unused)
 
-oled = SSD1306_SPI(128, 64, spi, dc, res, cs)
+dc = Pin(4)    # data/command
+rst = Pin(5)   # reset
+cs = Pin(15)   # chip select, some modules do not have a pin for this
+
+oled = ssd1306.SSD1306_SPI(128, 64, hspi, dc, rst, cs)
+
+oled.text("Hello, SPI!", 0, 0)
+oled.show()
+```
+
+#### Software SPI
+
+```python
+from machine import Pin, SoftSPI
+import ssd1306
+
+spi = SoftSPI(baudrate=500000, polarity=1, phase=0, sck=Pin(14), mosi=Pin(13), miso=Pin(12))
+
+dc = Pin(4)   # data/command
+rst = Pin(5)  # reset
+cs = Pin(15)  # chip select, some modules do not have a pin for this
+
+oled = ssd1306.SSD1306_SPI(128, 64, spi, dc, rst, cs)
 
 oled.text("Hello, SPI!", 0, 0)
 oled.show()

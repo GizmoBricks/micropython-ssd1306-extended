@@ -25,10 +25,11 @@ SET_CHARGE_PUMP     = const(0x8d)
 
 
 class SSD1306:
-    def __init__(self, width, height, external_vcc):
+    def __init__(self, width, height, external_vcc, cell_size):
         self.width = width
         self.height = height
         self.external_vcc = external_vcc
+        self.cell_size = cell_size
         self.pages = self.height // 8
         # Note the subclass must initialize self.framebuf to a framebuffer.
         # This is necessary because the underlying data buffer is different
@@ -135,19 +136,16 @@ class SSD1306:
 
     def text(self, string, x, y, col=1):
         self.framebuf.text(string, x, y, col)
-
+        
     def cell(self, cx, cy, dx=0, dy=0, space_x=0, space_y=0, col=1, fill=True):
-        """
-        Draw a cell in grid coordinates. 
-        Undocumented.
-        """
+        """Draw cell in grid coordinates."""
         px = cx * (self.cell_size + space_x) + dx
         py = cy * (self.cell_size + space_y) + dy
         self.rect(px, py, self.cell_size, self.cell_size, col, fill)
 
 
 class SSD1306_I2C(SSD1306):
-    def __init__(self, width, height, i2c, addr=0x3c, external_vcc=False):
+    def __init__(self, width, height, i2c, addr=0x3c, external_vcc=False, cell_size=3):
         self.i2c = i2c
         self.addr = addr
         self.temp = bytearray(2)
@@ -159,7 +157,7 @@ class SSD1306_I2C(SSD1306):
         self.buffer = bytearray(((height // 8) * width) + 1)
         self.buffer[0] = 0x40  # Set first byte of data buffer to Co=0, D/C=1
         self.framebuf = framebuf.FrameBuffer1(memoryview(self.buffer)[1:], width, height)
-        super().__init__(width, height, external_vcc)
+        super().__init__(width, height, external_vcc, cell_size)
 
     def write_cmd(self, cmd):
         self.temp[0] = 0x80 # Co=1, D/C#=0
@@ -176,7 +174,7 @@ class SSD1306_I2C(SSD1306):
 
 
 class SSD1306_SPI(SSD1306):
-    def __init__(self, width, height, spi, dc, res, cs, external_vcc=False):
+    def __init__(self, width, height, spi, dc, res, cs, external_vcc=False, cell_size=3):
         self.rate = 10 * 1024 * 1024
         dc.init(dc.OUT, value=0)
         res.init(res.OUT, value=0)
@@ -187,7 +185,7 @@ class SSD1306_SPI(SSD1306):
         self.cs = cs
         self.buffer = bytearray((height // 8) * width)
         self.framebuf = framebuf.FrameBuffer1(self.buffer, width, height)
-        super().__init__(width, height, external_vcc)
+        super().__init__(width, height, external_vcc, cell_size)
 
     def write_cmd(self, cmd):
         self.spi.init(baudrate=self.rate, polarity=0, phase=0)

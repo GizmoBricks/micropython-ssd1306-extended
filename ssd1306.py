@@ -136,6 +136,15 @@ class SSD1306:
     def text(self, string, x, y, col=1):
         self.framebuf.text(string, x, y, col)
 
+    def cell(self, cx, cy, dx=0, dy=0, space_x=0, space_y=0, col=1, fill=True):
+        """
+        Draw a cell in grid coordinates. 
+        Undocumented.
+        """
+        px = cx * (self.cell_size + space_x) + dx
+        py = cy * (self.cell_size + space_y) + dy
+        self.rect(px, py, self.cell_size, self.cell_size, col, fill)
+
 
 class SSD1306_I2C(SSD1306):
     def __init__(self, width, height, i2c, addr=0x3c, external_vcc=False):

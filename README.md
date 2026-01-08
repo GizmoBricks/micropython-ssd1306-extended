@@ -64,6 +64,7 @@ These methods wrap or extend MicroPython’s [`framebuf` API](https://docs.micro
 ### Display control
 - `show()`  
   Flush the framebuffer to the OLED display. Handles column shift for 64‑pixel wide displays.
+  
 - `poweroff()`  
   Turn the display off.
 - `poweron()`  
@@ -78,6 +79,7 @@ These methods wrap or extend MicroPython’s [`framebuf` API](https://docs.micro
 ### Drawing primitives
 - `pixel(x, y, col=1)`  
   Set or get a single pixel at `(x, y)`.
+  
 - `line(x1, y1, x2, y2, col=1)`  
   Draw a line from `(x1, y1)` to `(x2, y2)`.
 - `hline(x, y, w, col=1)`  
@@ -89,8 +91,14 @@ These methods wrap or extend MicroPython’s [`framebuf` API](https://docs.micro
 - `ellipse(x, y, xr, yr, col=1, fill=False, quadrant=15)`  
   Draw an ellipse centered at `(x, y)` with radii `xr`, `yr`.  
   `quadrant` is a bitmask:  
-  - 1 = Q1, 2 = Q2, 4 = Q3, 8 = Q4  
-  - 3 = Q1+Q2, 6 = Q2+Q3, 12 = Q3+Q4, 9 = Q4+Q1
+  - 1  = Q1
+  - 2  = Q2
+  - 4  = Q3
+  - 8  = Q4  
+  - 3  = Q1+Q2
+  - 6  = Q2+Q3
+  - 12 = Q3+Q4
+  - 9  = Q4+Q1
   - 15 = Q1+Q2+Q3+Q4
 - `poly(x, y, coords, col=1, fill=False)`  
   Draw a polygon with vertices defined in `coords` (array of integers).  
@@ -99,6 +107,7 @@ These methods wrap or extend MicroPython’s [`framebuf` API](https://docs.micro
 ### Text and scrolling
 - `text(s, x, y, col=1)`  
   Draw text string `s` at position `(x, y)` using built‑in 8×8 font.
+  
 - `scroll(dx, dy)`  
   Shift the framebuffer contents by `dx` horizontally and `dy` vertically.
 

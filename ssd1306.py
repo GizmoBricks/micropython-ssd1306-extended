@@ -91,8 +91,44 @@ class SSD1306:
     def fill(self, col):
         self.framebuf.fill(col)
 
-    def pixel(self, x, y, col):
+    def pixel(self, x, y, col=1):
         self.framebuf.pixel(x, y, col)
+
+    def line(self, x1, y1, x2, y2, col=1):
+        self.framebuf.line(x1, y1, x2, y2, col)
+
+    def hline(self, x, y, w, col=1):
+        self.framebuf.hline(x, y, w, col)
+        
+    def vline(self, x, y, h, col=1):
+        self.framebuf.vline(x, y, v, col)
+
+    def rect(self, x, y, w, h, col=1, fill=False):
+        self.framebuf.rect(x, y, w, h, col, fill)
+
+    def ellipse(self, x, y, xr, yr, col=1, fill=False, quadrant=15):
+        """
+        quadrants:
+        1  - Q1
+        2  - Q2
+        4  - Q3
+        8  - Q4
+        3  - Q1 + Q2
+        6  - Q2 + Q3
+        12 - Q3 + Q4
+        9  - Q4 + Q1
+        15 - Q1 + Q2 + Q3 + Q4
+        
+        https://docs.micropython.org/en/latest/library/framebuf.html for more info.
+        """
+        self.framebuf.ellipse(x, y, xr, yr, col, fill, quadrant)
+
+    def poly(self, x, y, coords, col=1, fill=False):
+        """
+        The coords must be specified as a array of integers,
+        e.g. array('h', [x0, y0, x1, y1, ... xn, yn]).
+        """
+        self.framebuf(x, y, coords, col, fill)
 
     def scroll(self, dx, dy):
         self.framebuf.scroll(dx, dy)

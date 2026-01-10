@@ -102,7 +102,7 @@ class SSD1306:
         self.framebuf.hline(x, y, w, col)
         
     def vline(self, x, y, h, col=1):
-        self.framebuf.vline(x, y, v, col)
+        self.framebuf.vline(x, y, h, col)
 
     def rect(self, x, y, w, h, col=1, fill=False):
         self.framebuf.rect(x, y, w, h, col, fill)
